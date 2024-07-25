@@ -1,5 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import data from './data';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
 // Utilize the URL to find the specific player data
 const getPlayerData = (chosenPlayer, data) => {
@@ -12,7 +14,14 @@ const getPlayerData = (chosenPlayer, data) => {
 
 function App() {
 	const [player1, setPlayer1] = useState(null);
+	const [season1, setSeason1] = useState('');
+	const [seasonType1, setSeasonType1] = useState('');
+	const [playerName1, setPlayerName1] = useState('');
+
 	const [player2, setPlayer2] = useState(null);
+	const [season2, setSeason2] = useState('');
+	const [seasonType2, setSeasonType2] = useState('');
+	const [playerName2, setPlayerName2] = useState('');
 
 	const fetchData = async (year, type, player, setPlayer) => {
 		try {
@@ -28,15 +37,23 @@ function App() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const year = e.target[0].value;
-		const type =
-			e.target[1].value.toLowerCase() === 'r' ? 'Regular%20Season' : 'Playoffs';
-		const player = e.target[2].value;
-		const whichPlayer =
-			e.target[3].value === 'player1' ? setPlayer1 : setPlayer2;
-		fetchData(year, type, player, whichPlayer);
+		if (e.target[6].value === 'player1') {
+			const year = season1;
+			const type =
+				seasonType1.toLowerCase() === 'r' ? 'Regular%20Season' : 'Playoffs';
+			const player = playerName1;
+			fetchData(year, type, player, setPlayer1);
+			return;
+		} else {
+			const year = season2;
+			const type =
+				seasonType2.toLowerCase() === 'r' ? 'Regular%20Season' : 'Playoffs';
+			const player = playerName2;
+			fetchData(year, type, player, setPlayer2);
+			return;
+		}
 	};
-	console.log(data);
+
 	return (
 		<div className='App'>
 			<div className='players-container'>
@@ -46,7 +63,7 @@ function App() {
 						{player1 &&
 							player1.map((stat, index) => (
 								<li key={index}>
-									{data[index]} : {stat}
+									<strong>{data[index]}:</strong> : {stat}
 								</li>
 							))}
 					</ul>
@@ -57,7 +74,7 @@ function App() {
 						{player2 &&
 							player2.map((stat, index) => (
 								<li key={index}>
-									{data[index]} : {stat}
+									<strong>{data[index]}:</strong> {stat}
 								</li>
 							))}
 					</ul>
@@ -65,38 +82,54 @@ function App() {
 			</div>
 			{!player1 && (
 				<form onSubmit={handleSubmit}>
-					<input type='text' placeholder="Enter NBA Season (ex: '2022-23'): " />
-					<br />
-					<input
-						type='text'
-						placeholder='Do you want to see Playoff Stats(p) or Regular Season stats (r): '
+					<TextField
+						label='Season (ex: 2022-23)'
+						onChange={(e) => setSeason1(e.target.value)}
 					/>
 					<br />
-					<input
-						type='text'
-						placeholder="Input the first player's stats you want to see: "
+					<br />
+					<TextField
+						label='Playoff (p) / Regular (r)'
+						onChange={(e) => setSeasonType1(e.target.value)}
+					/>
+					<br />
+					<br />
+					<TextField
+						label="Player 1's name"
+						onChange={(e) => setPlayerName1(e.target.value)}
 					/>
 					<br />
 					<input type='hidden' value='player1' />
-					<button type='submit'>Submit</button>
+					<Button type='submit' variant='contained'>
+						Submit
+					</Button>
 				</form>
 			)}
 			{!player2 && (
 				<form onSubmit={handleSubmit}>
-					<input type='text' placeholder="Enter NBA Season (ex: '2022-23'): " />
 					<br />
-					<input
-						type='text'
-						placeholder='Do you want to see Playoff Stats(p) or Regular Season stats (r): '
+					<br />
+					<TextField
+						label='Season (ex: 2022-23)'
+						onChange={(e) => setSeason2(e.target.value)}
 					/>
 					<br />
-					<input
-						type='text'
-						placeholder="Input the first player's stats you want to see: "
+					<br />
+					<TextField
+						label='Playoff (p) / Regular (r)'
+						onChange={(e) => setSeasonType2(e.target.value)}
+					/>
+					<br />
+					<br />
+					<TextField
+						label="Player 2's name"
+						onChange={(e) => setPlayerName2(e.target.value)}
 					/>
 					<br />
 					<input type='hidden' value='player2' />
-					<button type='submit'>Submit</button>
+					<Button type='submit' variant='contained'>
+						Submit
+					</Button>
 				</form>
 			)}
 		</div>
