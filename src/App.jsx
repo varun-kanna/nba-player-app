@@ -8,7 +8,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 // Utilize the URL to find the specific player data
 const getPlayerData = (chosenPlayer, data) => {
 	for (const player of data) {
-		if (chosenPlayer === player[2]) {
+		if (chosenPlayer.toLowerCase() === player[2].toLowerCase()) {
 			return player;
 		}
 	}
