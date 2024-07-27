@@ -40,7 +40,7 @@ function App() {
 		}
 	};
 
-	const handleSubmit = async (e) => {
+	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (e.target[6].value === 'player1') {
 			const year = season1;
