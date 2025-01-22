@@ -1,3 +1,5 @@
+# To run containerized version ([Docker Hub](https://hub.docker.com/repository/docker/v4runk/nba-player-app/general))
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
